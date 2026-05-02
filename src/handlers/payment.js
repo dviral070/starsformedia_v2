@@ -19,7 +19,7 @@ module.exports = (bot) => {
     try {
       await ctx.answerPreCheckoutQuery(true);
     } catch (err) {
-      console.error('[pre_checkout]', err);
+      console.error('[pre_checkout]', err.message);
       try {
         await ctx.answerPreCheckoutQuery(false, 'Something went wrong. Please try again.');
       } catch { /* ignore */ }
@@ -58,7 +58,8 @@ module.exports = (bot) => {
 
       await ctx.reply(`🎬 Enjoy your ${delivered} item(s)!`);
     } catch (err) {
-      console.error('[successful_payment]', err);
+      if (err?.response?.error_code === 403) return;
+      console.error('[successful_payment]', err.message);
       await ctx.reply(
         '⚠️ Payment received but delivery failed. Please contact support.'
       ).catch(() => {});

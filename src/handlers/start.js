@@ -88,7 +88,8 @@ module.exports = (bot) => {
         ...startInlineKeyboard(user, packages, isAdmin, memberCount),
       });
     } catch (err) {
-      console.error('[start handler]', err);
+      if (err?.response?.error_code === 403) return;
+      console.error('[start handler]', err.message);
       await ctx.reply('Something went wrong. Please try again.').catch(() => {});
     }
   });

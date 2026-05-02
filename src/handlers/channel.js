@@ -47,7 +47,7 @@ module.exports = (bot) => {
         });
       }
     } catch (err) {
-      console.error('[channel_post handler]', err);
+      console.error('[channel_post handler]', err.message);
     }
   });
 };

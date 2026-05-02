@@ -21,7 +21,11 @@ function parseChannelInput(raw) {
 async function currentChannelInfo(telegram, channelId) {
   try {
     const chat = await telegram.getChat(channelId);
-    return chat.title ? `${chat.title} (\`${channelId}\`)` : `\`${channelId}\``;
+    if (chat.title) {
+      const safeTitle = chat.title.replace(/([_*`\[])/g, '\\$1');
+      return `${safeTitle} (\`${channelId}\`)`;
+    }
+    return `\`${channelId}\``;
   } catch {
     return `\`${channelId}\``;
   }

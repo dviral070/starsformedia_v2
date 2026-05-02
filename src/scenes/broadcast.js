@@ -117,7 +117,7 @@ broadcastScene.action('bc_send', async (ctx) => {
     );
     await ctx.reply(`✅ Broadcast complete!\n📤 Sent: ${sent}/${total}\n❌ Failed: ${failed}`);
   } catch (err) {
-    console.error('[broadcast]', err);
+    console.error('[broadcast]', err.message);
     await ctx.reply('❌ Broadcast failed. Check logs.');
   }
 

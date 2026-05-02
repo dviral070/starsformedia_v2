@@ -49,7 +49,8 @@ module.exports = (bot) => {
         { parse_mode: 'Markdown' }
       );
     } catch (err) {
-      console.error('[/invite]', err);
+      if (err?.response?.error_code === 403) return;
+      console.error('[/invite]', err.message);
     }
   });
 
@@ -88,7 +89,8 @@ module.exports = (bot) => {
         ...statsInlineKeyboard(user, packages, isAdmin, memberCount),
       });
     } catch (err) {
-      console.error('[/stats]', err);
+      if (err?.response?.error_code === 403) return;
+      console.error('[/stats]', err.message);
     }
   });
 
@@ -112,7 +114,8 @@ module.exports = (bot) => {
         { parse_mode: 'Markdown' }
       );
     } catch (err) {
-      console.error('[referral link]', err);
+      if (err?.response?.error_code === 403) return;
+      console.error('[referral link]', err.message);
       await ctx.reply('Could not generate link. Try again.').catch(() => {});
     }
   });
@@ -163,7 +166,8 @@ module.exports = (bot) => {
         ...statsInlineKeyboard(user, packages, isAdmin, memberCount),
       });
     } catch (err) {
-      console.error('[my stats]', err);
+      if (err?.response?.error_code === 403) return;
+      console.error('[my stats]', err.message);
       await ctx.reply('Could not fetch stats. Try again.').catch(() => {});
     }
   });
@@ -175,7 +179,8 @@ module.exports = (bot) => {
       if (!packages.length) { await ctx.reply('No packages available right now. Check back later!'); return; }
       await ctx.reply('Choose a media pack:', packagesKeyboard(packages));
     } catch (err) {
-      console.error('[buy with stars]', err);
+      if (err?.response?.error_code === 403) return;
+      console.error('[buy with stars]', err.message);
       await ctx.reply('Could not load packages. Try again.').catch(() => {});
     }
   });
@@ -210,7 +215,8 @@ module.exports = (bot) => {
         { parse_mode: 'Markdown', ...Markup.inlineKeyboard(rows) }
       );
     } catch (err) {
-      console.error('[buy with points]', err);
+      if (err?.response?.error_code === 403) return;
+      console.error('[buy with points]', err.message);
       await ctx.reply('Could not load points. Try again.').catch(() => {});
     }
   });
@@ -264,7 +270,8 @@ module.exports = (bot) => {
         );
       }
     } catch (err) {
-      console.error('[redeem qty]', err);
+      if (err?.response?.error_code === 403) return;
+      console.error('[redeem qty]', err.message);
       await ctx.reply('Something went wrong. Try again.').catch(() => {});
     }
   });
@@ -293,7 +300,8 @@ module.exports = (bot) => {
         { parse_mode: 'Markdown' }
       );
     } catch (err) {
-      console.error('[redeem exec]', err);
+      if (err?.response?.error_code === 403) return;
+      console.error('[redeem exec]', err.message);
       await ctx.reply('Delivery failed. Try again.').catch(() => {});
     }
   });
@@ -318,7 +326,8 @@ module.exports = (bot) => {
         provider_token: '',
       });
     } catch (err) {
-      console.error('[buy pkg]', err);
+      if (err?.response?.error_code === 403) return;
+      console.error('[buy pkg]', err.message);
       await ctx.reply('Could not create invoice. Try again.').catch(() => {});
     }
   });
@@ -331,7 +340,8 @@ module.exports = (bot) => {
       const isAdmin = adminCache.isAdmin(ctx.from.id, ctx.from.username);
       await ctx.reply('Main menu:', mainUserKeyboard(isAdmin));
     } catch (err) {
-      console.error('[back to main]', err);
+      if (err?.response?.error_code === 403) return;
+      console.error('[back to main]', err.message);
     }
   });
 
@@ -349,7 +359,8 @@ module.exports = (bot) => {
         ...packagesKeyboard(packages),
       });
     } catch (err) {
-      console.error('[view offers]', err);
+      if (err?.response?.error_code === 403) return;
+      console.error('[view offers]', err.message);
     }
   });
 
@@ -376,7 +387,8 @@ module.exports = (bot) => {
         }
       );
     } catch (err) {
-      console.error('[start invite]', err);
+      if (err?.response?.error_code === 403) return;
+      console.error('[start invite]', err.message);
     }
   });
 
@@ -413,7 +425,8 @@ module.exports = (bot) => {
         }
       );
     } catch (err) {
-      console.error('[ref progress]', err);
+      if (err?.response?.error_code === 403) return;
+      console.error('[ref progress]', err.message);
     }
   });
 
@@ -450,7 +463,8 @@ module.exports = (bot) => {
         }
       );
     } catch (err) {
-      console.error('[ref leaderboard]', err);
+      if (err?.response?.error_code === 403) return;
+      console.error('[ref leaderboard]', err.message);
     }
   });
 
@@ -466,7 +480,8 @@ module.exports = (bot) => {
       const stats = await buildAdminStats(ctx.telegram);
       await ctx.reply(stats, { parse_mode: 'Markdown', ...mainAdminKeyboard() });
     } catch (err) {
-      console.error('[switch admin inline]', err);
+      if (err?.response?.error_code === 403) return;
+      console.error('[switch admin inline]', err.message);
     }
   });
 
@@ -484,7 +499,8 @@ module.exports = (bot) => {
       const stats = await buildAdminStats(ctx.telegram);
       await ctx.reply(stats, { parse_mode: 'Markdown', ...mainAdminKeyboard() });
     } catch (err) {
-      console.error('[switch to admin]', err);
+      if (err?.response?.error_code === 403) return;
+      console.error('[switch to admin]', err.message);
       await ctx.reply('Error switching view.').catch(() => {});
     }
   });

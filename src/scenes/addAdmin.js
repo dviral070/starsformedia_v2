@@ -72,7 +72,7 @@ addAdminScene.action('add_admin_confirm', async (ctx) => {
       ).catch(() => {});
     }
   } catch (err) {
-    console.error('[addAdmin]', err);
+    console.error('[addAdmin]', err.message);
     await ctx.editMessageText('❌ Failed to add admin. Please try again.');
   }
 

@@ -87,7 +87,8 @@ module.exports = (bot) => {
         ...startInlineKeyboard(user || { inviteCount: 0 }, packages, true, memberCount),
       });
     } catch (err) {
-      console.error('[switch to user]', err);
+      if (err?.response?.error_code === 403) return;
+      console.error('[switch to user]', err.message);
       await ctx.reply('Error switching view.').catch(() => {});
     }
   });
@@ -102,7 +103,8 @@ module.exports = (bot) => {
         { parse_mode: 'Markdown', ...mediaManageKeyboard() }
       );
     } catch (err) {
-      console.error('[media management]', err);
+      if (err?.response?.error_code === 403) return;
+      console.error('[media management]', err.message);
       await ctx.reply('Error loading media management.').catch(() => {});
     }
   });
@@ -118,7 +120,8 @@ module.exports = (bot) => {
         { parse_mode: 'Markdown', ...mediaManageKeyboard() }
       );
     } catch (err) {
-      console.error('[media count]', err);
+      if (err?.response?.error_code === 403) return;
+      console.error('[media count]', err.message);
     }
   });
 
@@ -160,7 +163,8 @@ module.exports = (bot) => {
         { parse_mode: 'Markdown', ...Markup.inlineKeyboard(rows) }
       );
     } catch (err) {
-      console.error('[media list]', err);
+      if (err?.response?.error_code === 403) return;
+      console.error('[media list]', err.message);
     }
   });
 
@@ -177,7 +181,8 @@ module.exports = (bot) => {
         ])
       );
     } catch (err) {
-      console.error('[media del confirm]', err);
+      if (err?.response?.error_code === 403) return;
+      console.error('[media del confirm]', err.message);
     }
   });
 
@@ -199,7 +204,8 @@ module.exports = (bot) => {
 
       await ctx.editMessageText('✅ Media deleted from pool.');
     } catch (err) {
-      console.error('[media del]', err);
+      if (err?.response?.error_code === 403) return;
+      console.error('[media del]', err.message);
     }
   });
 
@@ -217,7 +223,8 @@ module.exports = (bot) => {
         : '🔴 Bot is now *DISABLED*. Non-admins will get no response.';
       await ctx.reply(msg, { parse_mode: 'Markdown', ...mainAdminKeyboard() });
     } catch (err) {
-      console.error('[bot toggle]', err);
+      if (err?.response?.error_code === 403) return;
+      console.error('[bot toggle]', err.message);
       await ctx.reply('Error updating bot state.').catch(() => {});
     }
   });
@@ -231,7 +238,8 @@ module.exports = (bot) => {
         ...adminManageKeyboard(),
       });
     } catch (err) {
-      console.error('[admin management]', err);
+      if (err?.response?.error_code === 403) return;
+      console.error('[admin management]', err.message);
       await ctx.reply('Error.').catch(() => {});
     }
   });
@@ -265,7 +273,8 @@ module.exports = (bot) => {
       });
       await ctx.editMessageText(`📋 *Admin List*\n\n${lines.join('\n')}`, { parse_mode: 'Markdown' });
     } catch (err) {
-      console.error('[admin list]', err);
+      if (err?.response?.error_code === 403) return;
+      console.error('[admin list]', err.message);
     }
   });
 
@@ -293,7 +302,8 @@ module.exports = (bot) => {
     try {
       await showUserList(ctx, 0, false);
     } catch (err) {
-      console.error('[user list]', err);
+      if (err?.response?.error_code === 403) return;
+      console.error('[user list]', err.message);
       await ctx.reply('Error loading user list.').catch(() => {});
     }
   });
@@ -304,7 +314,8 @@ module.exports = (bot) => {
       await ctx.answerCbQuery();
       await showUserList(ctx, parseInt(ctx.match[1], 10), true);
     } catch (err) {
-      console.error('[user list page]', err);
+      if (err?.response?.error_code === 403) return;
+      console.error('[user list page]', err.message);
     }
   });
 };

@@ -81,8 +81,7 @@ async function boot() {
       if (err?.message !== 'Aborted') console.error('[bot]', err);
     });
   } catch (err) {
-    console.error('[boot error]', err);
-    process.exit(1);
+    console.error('[boot error]', err.message);
   }
 }
 
