@@ -39,17 +39,4 @@ function sleep(ms) {
   return new Promise((resolve) => setTimeout(resolve, ms));
 }
 
-function isTelegramUnreachableError(err) {
-  const code = err?.code ?? err?.response?.error_code;
-  const desc = (err?.description ?? err?.response?.description ?? err?.message ?? '').toLowerCase();
-  return (
-    code === 403 ||
-    desc.includes('bot was blocked by the user') ||
-    desc.includes('user is deactivated') ||
-    desc.includes('chat not found') ||
-    desc.includes('bot was kicked') ||
-    desc.includes('forbidden')
-  );
-}
-
-module.exports = { parseAdminInput, getMessageType, formatDate, sleep, isTelegramUnreachableError };
+module.exports = { parseAdminInput, getMessageType, formatDate, sleep };

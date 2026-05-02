@@ -1,5 +1,4 @@
 const Media = require('../models/Media');
-const { isTelegramUnreachableError } = require('../utils/helpers');
 
 /**
  * Delivers up to `count` media items to `chatId`.
@@ -37,19 +36,7 @@ async function deliverMedia(bot, chatId, count, { excludeIds = [] } = {}) {
     )
   );
 
-  const delivered = [];
-  for (let i = 0; i < results.length; i++) {
-    const r = results[i];
-    if (r.status === 'fulfilled') {
-      delivered.push(items[i]);
-      continue;
-    }
-    if (!isTelegramUnreachableError(r.reason)) {
-      console.error('[deliverMedia]', r.reason);
-    }
-  }
-
-  return delivered;
+  return items.filter((_, i) => results[i].status === 'fulfilled');
 }
 
 module.exports = { deliverMedia };

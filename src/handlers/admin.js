@@ -68,8 +68,8 @@ module.exports = (bot) => {
     try {
       const user = await User.findOneAndUpdate(
         { telegramId: ctx.from.id },
-        { $set: { viewMode: 'user' } },
-        { new: true, upsert: true }
+        { viewMode: 'user' },
+        { new: true }
       );
 
       const packages    = await Package.find({ isActive: true }).sort('order');
@@ -84,10 +84,6 @@ module.exports = (bot) => {
       await ctx.reply(welcomeText, {
         parse_mode: 'Markdown',
         ...mainUserKeyboard(true),
-      });
-
-      await ctx.reply('👇 *Quick Actions*', {
-        parse_mode: 'Markdown',
         ...startInlineKeyboard(user || { inviteCount: 0 }, packages, true, memberCount),
       });
     } catch (err) {

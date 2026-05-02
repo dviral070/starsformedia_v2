@@ -457,16 +457,12 @@ module.exports = (bot) => {
   // ── Switch to Admin (from inline button on start/stats message) ───────────
   bot.action('switch_admin_inline', async (ctx) => {
     try {
+      await ctx.answerCbQuery();
       if (!ctx.state.isAdmin) {
-        await ctx.answerCbQuery('⛔ Admin access required.', true).catch(() => {});
+        await ctx.answerCbQuery('⛔ Admin access required.', true);
         return;
       }
-      await ctx.answerCbQuery().catch(() => {});
-      await User.updateOne(
-        { telegramId: ctx.from.id },
-        { $set: { viewMode: 'admin' } },
-        { upsert: true }
-      );
+      await User.updateOne({ telegramId: ctx.from.id }, { viewMode: 'admin' });
       const stats = await buildAdminStats(ctx.telegram);
       await ctx.reply(stats, { parse_mode: 'Markdown', ...mainAdminKeyboard() });
     } catch (err) {
@@ -484,11 +480,7 @@ module.exports = (bot) => {
   bot.hears('🔐 Switch to Admin View', async (ctx) => {
     try {
       if (!ctx.state.isAdmin) { await ctx.reply('You do not have admin access.'); return; }
-      await User.updateOne(
-        { telegramId: ctx.from.id },
-        { $set: { viewMode: 'admin' } },
-        { upsert: true }
-      );
+      await User.updateOne({ telegramId: ctx.from.id }, { viewMode: 'admin' });
       const stats = await buildAdminStats(ctx.telegram);
       await ctx.reply(stats, { parse_mode: 'Markdown', ...mainAdminKeyboard() });
     } catch (err) {

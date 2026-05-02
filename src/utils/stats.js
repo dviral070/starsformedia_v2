@@ -25,7 +25,12 @@ async function buildAdminStats(telegram) {
     if (telegram) {
       try {
         const chat = await telegram.getChat(channelId);
-        label = chat.title ? `${chat.title} (\`${channelId}\`)` : `\`${channelId}\``;
+        if (chat.title) {
+          const safeTitle = chat.title.replace(/([_*`\[])/g, '\\$1');
+          label = `${safeTitle} (\`${channelId}\`)`;
+        } else {
+          label = `\`${channelId}\``;
+        }
       } catch {
         label = `\`${channelId}\``;
       }

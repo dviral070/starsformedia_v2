@@ -19,18 +19,20 @@ function startInlineKeyboard(user, packages, isAdmin, memberCount) {
     ? `Next: ${nextTier.emoji} ${nextTier.name} (${inviteCount}/${nextTier.invites})`
     : '🏆 Max Tier!';
 
-  const rows = [
-    [Markup.button.callback(`👥 INVITE FRIENDS | ${nextStr}`, 'start_invite')],
-    [Markup.button.callback(`❤️ My Referral Progress (${inviteCount})`, 'ref_progress')],
-  ];
+  const rows = [];
+
+  rows.push([{ text: `👥 INVITE FRIENDS | ${nextStr}`,           callback_data: 'start_invite',   style: 'success' }]);
+  rows.push([{ text: `❤️ My Referral Progress (${inviteCount})`, callback_data: 'ref_progress',   style: 'danger'  }]);
 
   for (const pkg of packages) {
-    rows.push([Markup.button.callback(`⭐ ${pkg.stars} Stars = ${pkg.mediaCount} Videos`, `buy_pkg:${pkg._id}`)]);
+    rows.push([{ text: `⭐ ${pkg.stars} Stars = ${pkg.mediaCount} Videos`, callback_data: `buy_pkg:${pkg._id}` }]);
   }
 
-  rows.push([Markup.button.callback('⭐ 📊 Referral Leaderboard', 'ref_leaderboard')]);
+  rows.push([{ text: '⭐ 📊 Referral Leaderboard',               callback_data: 'ref_leaderboard', style: 'primary' }]);
 
-  if (isAdmin) rows.push([Markup.button.callback(`👥 Admin View: ${memberCount} Members`, 'switch_admin_inline')]);
+  if (isAdmin) {
+    rows.push([{ text: `👥 Admin View: ${memberCount} Members`, callback_data: 'switch_admin_inline' }]);
+  }
 
   return Markup.inlineKeyboard(rows);
 }
